@@ -8,10 +8,6 @@ function updateDisplayA() {
     display_A.innerHTML = formula.join('');
 }
 
-function updateDisplayB() {
-    display_B.innerHTML = result;
-}
-
 function operate(formula) {
     result = eval(formula.join(''));
 }
@@ -19,7 +15,6 @@ function operate(formula) {
 function updateDisplays() {
     display_B.innerHTML = (formula.join('') + '=');
     display_A.innerHTML = result;
-
 }
 
 buttons.forEach(button => button.addEventListener('click', function(e) {
