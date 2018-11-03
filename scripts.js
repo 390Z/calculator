@@ -1,6 +1,7 @@
 let buttons = document.querySelectorAll('button');
 let formula = [];
 let result = '';
+let resultFixed = '';
 let display_A = document.querySelector('.display-a')
 let display_B = document.querySelector('.display-b')
 
@@ -14,7 +15,8 @@ function operate(formula) {
 
 function updateDisplays() {
     display_B.innerHTML = (formula.join('') + '=');
-    display_A.innerHTML = result;
+    resultFixed = +(result.toFixed(7))
+    display_A.innerHTML = resultFixed;
 }
 
 buttons.forEach(button => button.addEventListener('click', function(e) {
@@ -24,7 +26,12 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
 
     switch(tClass) {
         case 'num':
+            if (recent == ')' || recent == '%') {
+                formula.push('*');
+                formula.push(tId);
+            } else {
             formula.push(tId);
+        }
             break;
         case 'dec':
             if (recent == '.') {
@@ -91,5 +98,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
 document.querySelector('.eq').addEventListener('click', function() {
     operate(formula);
     updateDisplays();
-    formula = [result];
+    formula = [resultFixed];
 });
+
+function test
