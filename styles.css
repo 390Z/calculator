@@ -3,8 +3,8 @@ html {
 }
 
 .container {
-    width: 40vh;
-    height: 50vh;
+    width: 400px;
+    height: 600px;
     background-color: #222;
     display: flex;
     flex-direction: column;
@@ -13,27 +13,42 @@ html {
     margin: auto;
 }
 
-.output {
-    width: 33vh;
-    height: 8vh;
+.display-a {
+    width: 330px;
+    height: 70px;
     background-color: #262626;
     border: 1px solid #f2f2f2;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 40px;
+    color: #fff;
+    text-align: right;
 }
 
-.output, .b-row-1, .b-row-2, .b-row-3 {
-    margin-bottom: 0.5vh;
+.display-b {
+    width: 330px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -20px;
+    text-align: right;
+    color: #fff;
+}
+
+.b-row-0, .b-row-1, .b-row-2, .b-row-3 {
+    margin-bottom: 5px;
 }
 
 button {
-    width: 8vh;
-    height: 8vh;
-    font-size: 3vh;
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
     font-family: 'Roboto', sans-serif;
     vertical-align: middle;
+    padding: 0;
+
 }
 
-button.symbol {
-    font-size: 3.5vh;
+button.op, button.eq {
+    font-size: 30px;
 }
