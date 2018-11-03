@@ -43,6 +43,8 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                 recent == '/') {
                 formula.pop();
                 formula.push(tId);
+            } else if (recent == '(') {
+                return;
             } else {
                 formula.push(tId)
             }
@@ -52,7 +54,11 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                 case '(':
                     if (recent == '(') {
                         return;
-                    } else {
+                    } else if (isNaN(recent) == false) {
+                        formula.push('*');
+                        formula.push(tId);
+                    }
+                    else {
                         formula.push(tId);
                     }
                     break;
