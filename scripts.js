@@ -100,5 +100,3 @@ document.querySelector('.eq').addEventListener('click', function() {
     updateDisplays();
     formula = [resultFixed];
 });
-
-function test
