@@ -6,6 +6,6 @@ Click [here](https://390z.github.io/calculator/) to view in browser.
 
 **This is still a work-in-progress:**
 
-  - Calculator is missing some functionalities and input/behavorial logic
-  - Code needs refactoring
+  - Decimal input logic fails after deleting an operator or parenthesis
   - Missing keyboard support
+  - Certainly could be done better/cleaner; I will update this project as I become more proficient
