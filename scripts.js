@@ -2,6 +2,7 @@ const buttons = document.querySelectorAll('button');
 const displayA = document.querySelector('.display-a')
 const displayB = document.querySelector('.display-b')
 let formula = [];
+let hasDecimal = false;
 let result = '';
 let resultFixed = '';
 
@@ -35,7 +36,7 @@ function isOperator(recent) {
 buttons.forEach(button => button.addEventListener('click', function(e) {
     const tId = e.target.id;
     const tClass = e.target.className;
-    const recent = formula.slice(-1)[0];
+    const recent = formula.slice(-1)[0]; 
 
     switch(tClass) {
         case 'num':
@@ -52,13 +53,15 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
         }
             break;
         case 'dec':
-            if (recent == '.') {
+            if (hasDecimal == true) {
                 return;
             } else if (recent == ')' || recent == '%') {
                 formula.push('*');
                 formula.push(tId);
+                hasDecimal = true;
             } else {
                 formula.push(tId);
+                hasDecimal = true;
             }
             break;
         case 'per':
@@ -66,30 +69,39 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                 return;
             } else if (recent == '(') {
                 return;
+            } else if (formula == false) {
+                formula.push('0');
+                formula.push(tId);
             } else if (isOperator(recent)) {
                 formula.pop();
                 formula.push(tId);
+                hasDecimal = false;
             } else if (recent == '.' | formula == false) {
                 formula.pop();
                 formula.push(tId);
+                hasDecimal = false;
             } else {
                 formula.push(tId);
+                hasDecimal = false;
             }
             break;
         case 'op':
-            if (isOperator(recent)) {
+            if (recent == '(') {
+                return;
+            } else if (isOperator(recent)) {
                 formula.pop();
                 formula.push(tId);
-            } else if (recent == '(') {
-                return;
+                hasDecimal = false;
             } else {
                 formula.push(tId)
+                hasDecimal = false;
             }
             break;
         case 'par':
             switch(tId) {
                 case '(':
                     formula.push(tId);
+                    hasDecimal = false;
                     break;
                 case ')':
                     let countLPar = 0;
@@ -108,6 +120,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                             break;
                         } else {
                         formula.push(tId);
+                        hasDecimal = false;
                         break;
                         }
                     }
@@ -117,6 +130,9 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
         case 'clear':
             if (formula == false) {
                 return;
+            } else if (recent == '.') {
+                formula.pop();
+                hasDecimal = false;
             } else {
                 formula.pop();
             }
