@@ -1,12 +1,12 @@
-let buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('button');
+const displayA = document.querySelector('.display-a')
+const displayB = document.querySelector('.display-b')
 let formula = [];
 let result = '';
 let resultFixed = '';
-let display_A = document.querySelector('.display-a')
-let display_B = document.querySelector('.display-b')
 
 function updateDisplayA() {
-    display_A.innerHTML = formula.join('');
+    displayA.innerHTML = formula.join('').replace(/\*/g, '×').replace(/\//g, '÷');
 }
 
 function operate(formula) {
@@ -14,15 +14,16 @@ function operate(formula) {
 }
 
 function updateDisplays() {
-    display_B.innerHTML = (formula.join('') + '=');
+    let formulaFixed = formula.join('').replace(/\*/g, '×').replace(/\//g, '÷');
+    displayB.innerHTML = (formulaFixed + '=');
     resultFixed = +(result.toFixed(7))
-    display_A.innerHTML = resultFixed;
+    displayA.innerHTML = resultFixed;
 }
 
 buttons.forEach(button => button.addEventListener('click', function(e) {
-    let tId = e.target.id;
-    let tClass = e.target.className;
-    let recent = formula.slice(-1)[0];
+    const tId = e.target.id;
+    const tClass = e.target.className;
+    const recent = formula.slice(-1)[0];
 
     switch(tClass) {
         case 'num':
@@ -44,10 +45,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
             }
             break;
         case 'op':
-            if (recent == '+' ||
-                recent == '-' ||
-                recent == '*' ||
-                recent == '/') {
+            if (recent == '+' || recent == '-' || recent == '*' ||  recent == '/') {
                 formula.pop();
                 formula.push(tId);
             } else if (recent == '(') {
@@ -76,10 +74,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                         } else if (formula[i] == '(') {
                             if (recent == '(') {
                                 break;
-                            } else if (recent == '+' ||
-                                       recent == '-' ||
-                                       recent == '*' ||
-                                       recent == '/') {
+                            } else if (recent == '+' || recent == '-' || recent == '*' || recent == '/') {
                                 break;
                             } else {
                             formula.push(tId);
@@ -91,6 +86,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
             break;
         case 'clear':
             formula.pop();
+            break;
     }
     updateDisplayA();
 }));
