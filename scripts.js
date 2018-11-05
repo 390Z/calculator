@@ -10,14 +10,26 @@ function updateDisplayA() {
 }
 
 function operate(formula) {
+    formula.forEach((formulaObj, index) => {
+        if (formulaObj === '%') {
+            formula[index] = '*.01';
+        }
+    });
+    
     result = eval(formula.join(''));
 }
 
 function updateDisplays() {
-    let formulaFixed = formula.join('').replace(/\*/g, '×').replace(/\//g, '÷');
-    displayB.innerHTML = (formulaFixed + '=');
-    resultFixed = +(result.toFixed(7))
+    displayB.innerHTML = (displayA.innerHTML + '=');
+    resultFixed = +(result.toFixed(3))
     displayA.innerHTML = resultFixed;
+}
+
+function isOperator(recent) {
+    if (recent == '+') return true;
+    if (recent == '-') return true;
+    if (recent == '*') return true;
+    if (recent == '/') return true;
 }
 
 buttons.forEach(button => button.addEventListener('click', function(e) {
@@ -27,8 +39,13 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
 
     switch(tClass) {
         case 'num':
-            if (recent == ')' || recent == '%') {
+            if (tId == '0' && formula == false) {
+                return;
+            } else if (recent == ')' || recent == '%') {
                 formula.push('*');
+                formula.push(tId);
+            } else if (tId !== '0' && formula == false) {
+                formula.pop();
                 formula.push(tId);
             } else {
             formula.push(tId);
@@ -41,11 +58,26 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                 formula.push('*');
                 formula.push(tId);
             } else {
-                formula.push(tId); //need logic to prevent multiple decimals in one number
+                formula.push(tId);
+            }
+            break;
+        case 'per':
+            if (recent == '%') {
+                return;
+            } else if (recent == '(') {
+                return;
+            } else if (isOperator(recent)) {
+                formula.pop();
+                formula.push(tId);
+            } else if (recent == '.' | formula == false) {
+                formula.pop();
+                formula.push(tId);
+            } else {
+                formula.push(tId);
             }
             break;
         case 'op':
-            if (recent == '+' || recent == '-' || recent == '*' ||  recent == '/') {
+            if (isOperator(recent)) {
                 formula.pop();
                 formula.push(tId);
             } else if (recent == '(') {
@@ -54,7 +86,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                 formula.push(tId)
             }
             break;
-        case 'par': //logic incomplete
+        case 'par':
             switch(tId) {
                 case '(':
                     if (recent == '(') {
@@ -74,7 +106,7 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
                         } else if (formula[i] == '(') {
                             if (recent == '(') {
                                 break;
-                            } else if (recent == '+' || recent == '-' || recent == '*' || recent == '/') {
+                            } else if (isOperator(recent)) {
                                 break;
                             } else {
                             formula.push(tId);
@@ -85,8 +117,11 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
             }
             break;
         case 'clear':
-            formula.pop();
-            break;
+            if (formula == false) {
+                return;
+            } else {
+                formula.pop();
+            }
     }
     updateDisplayA();
 }));
