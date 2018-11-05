@@ -16,7 +16,7 @@ function operate(formula) {
         }
     });
     
-    result = eval(formula.join(''));
+    result = eval(formula.join('').replace(/\)\(/g, ')*(').replace(/(?<=\d)\(/g, '*('));
 }
 
 function updateDisplays() {
@@ -89,28 +89,26 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
         case 'par':
             switch(tId) {
                 case '(':
-                    if (recent == '(') {
-                        return;
-                    } else if (isNaN(recent) == false) {
-                        formula.push('*');
-                        formula.push(tId);
-                    }
-                    else {
-                        formula.push(tId);
-                    }
+                    formula.push(tId);
                     break;
                 case ')':
+                    let countLPar = 0;
+                    let countRPar = 0;
                     for (i = (formula.length - 1); i >= 0; i--) {
-                        if (formula[i] == ')') {
+                        if (formula[i] == '(') {
+                            countLPar ++;
+                        } else if (formula[i] == ')') {
+                            countRPar ++;
+                        }
+                    }
+                    if (countLPar - countRPar >= 1) {
+                        if (recent == '(') {
                             break;
-                        } else if (formula[i] == '(') {
-                            if (recent == '(') {
-                                break;
-                            } else if (isOperator(recent)) {
-                                break;
-                            } else {
-                            formula.push(tId);
-                            }
+                        } else if (isOperator(recent)) {
+                            break;
+                        } else {
+                        formula.push(tId);
+                        break;
                         }
                     }
                     break;
