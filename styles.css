@@ -65,6 +65,7 @@ button {
     margin: 0px 4px 0 4px;
     border-radius: 2px;
     border: 0px;
+    transition: 1s;
 }
 
 button, .display-a, .display-b {
@@ -84,6 +85,11 @@ button.par, button.per, button.clear {
     background-color: rgb(215, 215, 215);
 }
 
+button.par:active, button.per:active, button.clear:active {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.8);
+    transition: 0s;
+}
+
 button.eq {
     background-color: #368cd8;
     color: #fff;
@@ -92,4 +98,20 @@ button.eq {
 button.op {
     background-color: #d83636;
     color: #fff;
+}
+
+button.op:focus {
+    background-color: #e6e6e6;
+    color: #d83636;
+    transition: 1s;
+}
+
+button:active {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.25);
+    transition: 0s;
+}
+
+button:active, button:focus {
+    outline: 0;
+    border: none;
 }

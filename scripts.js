@@ -88,6 +88,9 @@ buttons.forEach(button => button.addEventListener('click', function(e) {
         case 'op':
             if (recent == '(') {
                 return;
+            } else if (formula == false) {
+                formula.push('0');
+                formula.push(tId);
             } else if (isOperator(recent)) {
                 formula.pop();
                 formula.push(tId);
